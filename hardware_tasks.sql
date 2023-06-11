@@ -11,8 +11,8 @@ SELECT amount, tag FROM test.hardware GROUP BY tag ORDER BY amount DESC;
 -- 6 Вывести количество товарных позиций со скидками на складе
 SELECT title, amount FROM test.hardware WHERE tag LIKE '%discount%';
 -- 7. Вывести название и цену самой дорогой новинки
-SELECT title, price FROM test.hardware WHERE tag LIKE '%new%' GROUP BY title, price ORDER BY price DESC;
+SELECT title, price FROM test.hardware WHERE tag LIKE '%new%' GROUP BY title, price ORDER BY price DESC LIMIT 1;
 -- 8. Добавить в таблицу товар Ноутбук Lenovo 2BXKQ7E9XD как новинку по цене 54500 руб. в единственном экземпляре
 INSERT INTO hardware (title, price, amount, tag) VALUES ('Ноутбук Lenovo 2BXKQ7E9XD', '54500', '1', 'new');
 -- 9. Найти и удалить по названию из базы ошибочно добавленный товар Очки PS VR 2
-DELETE FROM test.hardware WHERE title LIKE '%Очки%';
+DELETE FROM test.hardware WHERE title LIKE 'Очки PS VR 2' AND id > 0;
