@@ -7,6 +7,7 @@ JOIN authors_books ON authors_books.books_id = books.id
 JOIN authors ON authors_books.authors_id = authors.id
 GROUP BY books.title, authors.name
 ORDER BY authors.name DESC
+LIMIT 1
 ;
 -- 2. Вывести пять самых старых книг у которых указан год издания
 SELECT 
@@ -15,7 +16,7 @@ SELECT
 FROM books
 JOIN authors_books ON authors_books.books_id = books.id
 WHERE year IS NOT NULL
-ORDER BY year
+ORDER BY year ASC
 LIMIT 5
 ;
 -- 3. Вывести общее количество книг на полке в кабинете
@@ -23,7 +24,7 @@ SELECT COUNT(books.title)
 FROM books 
 JOIN authors_books ON authors_books.books_id = books.id
 JOIN shelves ON books.shelves_id = shelves.id
-WHERE shelves.id = '1'
+WHERE shelves.title = 'Полка в кабинете'
 ;
 -- 4. Вывести названия, имена авторов и годы издания книг, которые находятся на полке в спальне
 SELECT
@@ -34,7 +35,7 @@ FROM books
 JOIN authors_books ON authors_books.books_id = books.id
 JOIN authors ON authors_books.authors_id = authors.id
 JOIN shelves ON books.shelves_id = shelves.id
-WHERE books.shelves_id = 4
+WHERE shelves.title = 'Полка в спальне'
 ;
 -- 5. Вывести названия и годы издания книг, написанных автором 'Лев Толстой'
 SELECT
@@ -70,5 +71,12 @@ SET friends_id = 'Иванов Иван'
 WHERE books.title = 'Божественная комедия' AND authors.name = 'Данте Алигьери'
 ;
 -- 9. Добавить в базу книгу «Краткие ответы на большие вопросы», год издания 2020, автор «Стивен Хокинг», положить ее на полку в кабинете
-INSERT INTO shelves (title) 
-VALUES ('Полка в кабинете')
+INSERT INTO books (books.title, books.year, books.shelves_id)
+VALUES ('Краткие ответы на большие вопросы', '2020', 1)
+;
+INSERT INTO authors (authors.name)
+VALUES ('Стивен Хокинг')
+;
+INSERT INTO authors_books (authors_books.books_id, authors_books.authors_id)
+VALUES (176, 145)
+;
