@@ -4,14 +4,12 @@ FROM movies
 JOIN company ON company.id = movies.company_id
 WHERE company.title = 'Universal Pictures'
 ;
-
 -- 2. Вывести сколько всего фильмов было снято режиссером Фрэнсисом Фордом Копполой
 SELECT movies.title
 FROM movies
 JOIN directors ON movies.directors_id = directors.id
 WHERE directors.full_name = 'Фрэнсис Форд Коппола'
 ;
-
 -- 3. Вывести количество снятых фильмов за последние 20 лет
 SELECT movies.title
 FROM movies
@@ -28,7 +26,6 @@ JOIN directors ON movies.directors_id = directors.id
 JOIN genres ON movies.genres_id = genres.id
 WHERE directors.full_name = 'Стивен Спилберг'
 ;
-
 -- 5. Вывести названия, жанры и режиссеров 5 самых дорогих фильмов
 SELECT
 	movies.title,
@@ -40,17 +37,15 @@ JOIN genres ON movies.genres_id = genres.id
 ORDER BY budget DESC
 LIMIT 5
 ;
-
 -- 6. Вывести имя режиссера с самым большим количеством фильмов
 SELECT
     directors.full_name
 FROM movies
 JOIN directors ON movies.directors_id = directors.id
+GROUP BY directors.full_name
 ORDER BY movies.directors_id DESC
 LIMIT 1
 ;
-
-
 -- 7. Вывести названия и жанры фильмов, снятые самой большой кинокомпанией (по сумме всех бюджетов фильмов)
 SELECT
 	movies.title,
@@ -68,26 +63,20 @@ GROUP BY
 ORDER BY movies.budget DESC
 LIMIT 1
 ;
-
-
 -- 8. Вывести средний бюджет фильмов, снятых кинокомпанией Warner Bros.
-SELECT movies.title, AVG(budget)
+SELECT AVG(movies.budget)
 FROM movies
-JOIN company ON movies.company_id = company.id
-WHERE company.title = 'Warner Bros'
-GROUP BY movies.title
+JOIN companies ON movies.company_id = companies.id
+WHERE companies.title = 'Warner Bros.'
 ;
-
 -- 9. Вывести количество фильмов каждого жанра и средний бюджет по жанру
 SELECT genres.title, COUNT(movies.genres_id), AVG(movies.budget)
 FROM movies
 JOIN genres ON movies.genres_id = genres.id
 GROUP BY genres.title
 ;
-
 -- 10. Найти и удалить комедию "Дикие истории" 2014-го года
 DELETE movies.title
 FROM movies
 WHERE movies.title = 'Дикие истории' and genres.title = 'комедия' and movies.year = '2014'
 ;
-
